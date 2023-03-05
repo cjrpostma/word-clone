@@ -4,11 +4,17 @@ import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 import { range } from "../../utils";
 import Guess from "../Guess/Guess";
 
-function GuessResult({ guesses }) {
+function GuessResult({ answer, guesses }) {
   return (
     <div className="guess-results">
       {range(NUM_OF_GUESSES_ALLOWED).map((index) => {
-        return <Guess guess={guesses[index]} key={crypto.randomUUID()} />;
+        return (
+          <Guess
+            answer={answer}
+            guess={guesses[index]}
+            key={crypto.randomUUID()}
+          />
+        );
       })}
     </div>
   );
