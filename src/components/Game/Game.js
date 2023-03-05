@@ -3,7 +3,7 @@ import React from "react";
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
 import GuessForm from "../GuessForm/GuessForm";
-import GuessList from "../GuessList/GuessList";
+import GuessResult from "../GuessResult/GuessResult";
 
 // Pick a random word on every pageload.
 const answer = sample(WORDS);
@@ -21,7 +21,7 @@ function Game() {
   return (
     <>
       Put a game here!
-      <GuessList guesses={guesses} />
+      <GuessResult guesses={guesses} />
       <GuessForm handleSubmitGuess={handleSubmitGuess} />
     </>
   );
