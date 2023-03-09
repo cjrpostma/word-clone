@@ -7,14 +7,8 @@ import Guess from "../Guess/Guess";
 function GuessResult({ answer, guesses }) {
   return (
     <div className="guess-results">
-      {range(NUM_OF_GUESSES_ALLOWED).map((index) => {
-        return (
-          <Guess
-            answer={answer}
-            guess={guesses[index]}
-            key={crypto.randomUUID()}
-          />
-        );
+      {range(NUM_OF_GUESSES_ALLOWED).map((num) => {
+        return <Guess answer={answer} value={guesses[num]} key={num} />;
       })}
     </div>
   );

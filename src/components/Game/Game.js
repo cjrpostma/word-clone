@@ -25,10 +25,8 @@ function Game() {
       return letter.status === "correct";
     });
 
-  console.log(result);
-  function handleSubmitGuess(guess) {
-    const nextGuesses = [...guesses, guess];
-    setGuesses(nextGuesses);
+  function handleSubmitGuess(tentativeGuess) {
+    setGuesses([...guesses, tentativeGuess]);
   }
 
   return (
