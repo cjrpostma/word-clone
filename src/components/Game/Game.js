@@ -2,45 +2,40 @@ import React from "react";
 
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
-import GuessForm from "../GuessForm/GuessForm";
-import GuessResult from "../GuessResult/GuessResult";
-import Banner from "../Banner/Banner";
-import { checkGuess } from "../../game-helpers";
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants";
 
-// Pick a random word on every pageload.
+import GuessInput from "../GuessInput/GuessInput";
+import GuessResult from "../GuessResult/GuessResult";
+import WonBanner from "../WonBanner/WonBanner";
+import LostBanner from "../LostBanner/LostBanner";
+
 const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
 console.info({ answer });
 
 function Game() {
   const [guesses, setGuesses] = React.useState([]);
-
-  const result = React.useMemo(() => {
-    return checkGuess(guesses[guesses.length - 1], answer);
-  }, [guesses]);
-
-  const isWinner =
-    result &&
-    result.every((letter) => {
-      return letter.status === "correct";
-    });
+  const [gameStatus, setGameStatus] = React.useState("running");
 
   function handleSubmitGuess(tentativeGuess) {
-    setGuesses([...guesses, tentativeGuess]);
+    const nextGuesses = [...guesses, tentativeGuess];
+    setGuesses(nextGuesses);
+
+    if (tentativeGuess === answer) {
+      setGameStatus("won");
+    } else if (nextGuesses.length === NUM_OF_GUESSES_ALLOWED) {
+      setGameStatus("lost");
+    }
   }
 
   return (
     <>
-      Put a game here!
-      {(isWinner === true || guesses.length === 6) && (
-        <Banner
-          answer={answer}
-          isWinner={isWinner}
-          guessCount={guesses.length}
-        />
-      )}
-      <GuessResult answer={answer} guesses={guesses} />
-      <GuessForm handleSubmitGuess={handleSubmitGuess} />
+      <GuessResult guesses={guesses} answer={answer} />
+      <GuessInput
+        gameStatus={gameStatus}
+        handleSubmitGuess={handleSubmitGuess}
+      />
+      {gameStatus === "won" && <WonBanner numOfGuesses={guesses.length} />}
+      {gameStatus === "lost" && <LostBanner answer={answer} />}
     </>
   );
 }
